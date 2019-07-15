@@ -4,7 +4,10 @@ import com.njau.domain.Account.Account;
 import com.njau.service.AccountService;
 import config.SpringConfiguration;
 import org.junit.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
@@ -15,10 +18,15 @@ import java.util.List;
  * @version:1.0
  * @date 2019/7/150:57
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = SpringConfiguration.class)
 public class AccountServiceTest {
+
+	@Autowired
+	AccountService accountService = null;
+
 	@Test
 	public void testfindAll() {
-		AccountService accountService = getAccountService();
 		List<Account> allAccount = accountService.findAllAccount();
 		for (Account account : allAccount) {
 			System.out.println(account);
@@ -27,14 +35,12 @@ public class AccountServiceTest {
 
 	@Test
 	public void testfindOne() {
-		AccountService accountService = getAccountService();
 		Account account = accountService.findAccountById(1);
 		System.out.println(account);
 	}
 
 	@Test
 	public void testSave() {
-		AccountService accountService = getAccountService();
 		Account account = new Account();
 		account.setName("zhangwenjun");
 		account.setMoney(123.123f);
@@ -43,7 +49,6 @@ public class AccountServiceTest {
 
 	@Test
 	public void testUpdate() {
-		AccountService accountService = getAccountService();
 		Account account = accountService.findAccountById(1);
 		account.setName("六四");
 		accountService.updateAccount(account);
@@ -51,21 +56,20 @@ public class AccountServiceTest {
 
 	@Test
 	public void testDelete() {
-		AccountService accountService = getAccountService();
 		accountService.deleteAccountById(4);
 	}
 
-	/**
+/*	*//**
 	 * @Description: 从容器中获取对象的方法
 	 * @Param:[]
 	 * @return: com.njau.service.AccountService
 	 * @Author: 张文军
 	 * @Date: 2019/7/15
-	 */
+	 *//*
 	private AccountService getAccountService() {
 		//ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bean.xml");
 		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
 		AccountService accountService = applicationContext.getBean("accountService", AccountService.class);
 		return accountService;
-	}
+	}*/
 }
